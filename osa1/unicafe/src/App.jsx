@@ -12,6 +12,15 @@ const Statistics = (propgood, propneutral, propbad) => {
   var average = (propgood * 1 + propneutral * 0 + propbad * (-1))/all
   var positive = propgood/all
 
+  
+  if (propgood == 0 && propneutral == 0 && propbad == 0) {
+    return (
+      <div>
+        <p> No feedback given </p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <p> Good {propgood} </p>
@@ -34,7 +43,6 @@ const App = () => {
   const increaseGoodByOne = () => setGood(good + 1)
   const increaseNeutralByOne = () => setNeutral(neutral + 1)
   const increaseBadByOne = () => setBad(bad + 1)
-
 
   return (
     <div>
@@ -60,6 +68,7 @@ const App = () => {
       {Statistics(good, neutral, bad)}
 
     </div>
+
   )
 }
 
