@@ -15,13 +15,24 @@ const Counter = (props) => {
   )
 }
 
+const Average = (props) => {
+
+  return (
+    <div>
+      <p> average {(props.amounts[0]*1 + props.amounts[1]*0 + props.amounts[2]*(-1))/props.amounts[3]} </p>
+      <p> positive {props.amounts[0]/props.amounts[3]}</p>
+    </div>
+  )
+
+}
+
+
 const App = () => {
   
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  
   const increaseGoodByOne = () => setGood(good + 1)
   const increaseNeutralByOne = () => setNeutral(neutral + 1)
   const increaseBadByOne = () => setBad(bad + 1)
@@ -51,6 +62,8 @@ const App = () => {
       <Counter text = {"good"} grade = {good} />
       <Counter text = {"neutral"} grade = {neutral} />
       <Counter text = {"bad"} grade = {bad} />
+      <Counter text = {"total"} grade = {good + neutral + bad} />
+      <Average amounts = {[good, neutral, bad, good + neutral + bad]} />
     </div>
   )
 }
