@@ -6,24 +6,22 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
-const Counter = (props) => {
+const Statistics = (propgood, propneutral, propbad) => {
+
+  var all = propgood + propneutral + propbad
+  var average = (propgood * 1 + propneutral * 0 + propbad * (-1))/all
+  var positive = propgood/all
 
   return (
     <div>
-      <p> {props.text} {props.grade}</p>
+      <p> Good {propgood} </p>
+      <p> Neutral {propneutral}</p>
+      <p> Bad {propbad} </p>
+      <p> All {all} </p>
+      <p> Average {average} </p>
+      <p> Positive {positive} </p>
     </div>
   )
-}
-
-const Average = (props) => {
-
-  return (
-    <div>
-      <p> average {(props.amounts[0]*1 + props.amounts[1]*0 + props.amounts[2]*(-1))/props.amounts[3]} </p>
-      <p> positive {props.amounts[0]/props.amounts[3]}</p>
-    </div>
-  )
-
 }
 
 
@@ -58,12 +56,9 @@ const App = () => {
       />
 
       <h1>statistics</h1>
+ 
+      {Statistics(good, neutral, bad)}
 
-      <Counter text = {"good"} grade = {good} />
-      <Counter text = {"neutral"} grade = {neutral} />
-      <Counter text = {"bad"} grade = {bad} />
-      <Counter text = {"total"} grade = {good + neutral + bad} />
-      <Average amounts = {[good, neutral, bad, good + neutral + bad]} />
     </div>
   )
 }
