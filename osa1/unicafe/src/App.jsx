@@ -12,8 +12,9 @@ const Statistics = (propgood, propneutral, propbad) => {
   var average = (propgood * 1 + propneutral * 0 + propbad * (-1))/all
   var positive = propgood/all
 
-  
+
   if (propgood == 0 && propneutral == 0 && propbad == 0) {
+
     return (
       <div>
         <p> No feedback given </p>
@@ -23,12 +24,20 @@ const Statistics = (propgood, propneutral, propbad) => {
 
   return (
     <div>
-      <p> Good {propgood} </p>
-      <p> Neutral {propneutral}</p>
-      <p> Bad {propbad} </p>
-      <p> All {all} </p>
-      <p> Average {average} </p>
-      <p> Positive {positive} </p>
+      <StatisticLine text = {"Good"} value = {propgood} />
+      <StatisticLine text = {"Neutral"} value = {propneutral} />
+      <StatisticLine text = {"Bad"} value = {propbad} />
+      <StatisticLine text = {"All"} value = {all} />
+      <StatisticLine text = {"Average"} value = {average} />
+      <StatisticLine text = {"Positive"} value = {positive} percent = "%"/> 
+    </div>
+  )
+}
+
+const StatisticLine = (props) => {
+  return (
+    <div>
+      <p> {props.text} {props.value} {props.percent}</p>
     </div>
   )
 }
