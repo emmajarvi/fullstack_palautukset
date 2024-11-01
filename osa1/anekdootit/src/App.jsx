@@ -10,6 +10,10 @@ function RandomInt(max) {
   return Math.floor(Math.random() * max)
 }
 
+const aanet = Array(8).fill(0)
+const kopio = { ...aanet }
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -22,16 +26,38 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
   
-
   const [selected, setSelected] = useState(0)
+  const [aani, aanesta] = useState(0)
+
+  const arvoAnekdootti = () => {
+
+    setSelected(RandomInt(8))
+    
+  }
+
+  const aanestys = () => {
+
+    kopio[selected] += 1
+
+    aanesta(kopio[selected])
+
+    console.log("nyt äänestetään: ", kopio)
+
+    aanet[selected] = kopio[selected]
+  }
   
-  const arvoAnekdootti = () => setSelected(RandomInt(8))
+  console.log("nyt laitettava ääni: ", aani)
+  console.log("indeksi: ", selected)
+  console.log("äänet: ", aanet)
+  
 
   return (
     <div>
 
       <p> {anecdotes[selected]} </p>
+      <p> has {aanet[selected]} votes </p>
       < Button handleClick = {arvoAnekdootti} text = "next anecdote" />
+      < Button handleClick = {aanestys} text = "vote" />
 
     </div>
   )
