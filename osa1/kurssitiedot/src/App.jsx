@@ -11,9 +11,9 @@ const Content = (props) => {
 
   return (
     <div>
-      <Part kurssi = {props.parts[0].name} tehtavia = {props.parts[0].exercises} />
-      <Part kurssi = {props.parts[1].name} tehtavia = {props.parts[1].exercises}/>
-      <Part kurssi = {props.parts[2].name} tehtavia = {props.parts[2].exercises}/>
+      <Part kurssi = {props.osat[0].name} tehtavia = {props.osat[0].exercises} />
+      <Part kurssi = {props.osat[1].name} tehtavia = {props.osat[1].exercises}/>
+      <Part kurssi = {props.osat[2].name} tehtavia = {props.osat[2].exercises}/>
     </div>
 
   )
@@ -65,7 +65,7 @@ const App = () => {
   return (
     <div>
        < Header kurssi = {course.name} />
-       < Content parts = {course.parts} />
+       < Content osat = {course.parts} />
        < Total parts = {course.parts} />
     </div>
   )
