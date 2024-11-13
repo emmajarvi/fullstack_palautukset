@@ -16,18 +16,30 @@ const Course = ( {course} ) => {
       
         return ( 
           <div>
-            <p> {props.osannimi} {props.tehtavia}</p>
+            <p> {props.osannimi} {props.tehtavia} </p>
           </div>
         )
       }
 
       return (
         <div>
-          <ul>
               {kurssi.map(osa => 
                 <Part key = {osa.id} osannimi = {osa.name} tehtavia ={osa.exercises} />
               )}
-          </ul>
+        </div>
+      )
+    }
+
+    const Total = ( {kurssi} ) => {
+
+      const tehtavat = kurssi.map(osa => osa.exercises)
+
+      const summaaTehtavat = tehtavat.reduce(
+        (joSummatut, nytLisattava) => joSummatut + nytLisattava);
+
+      return (
+        <div>
+          <b> Total of {summaaTehtavat} exercises </b>
         </div>
       )
     }
@@ -35,22 +47,14 @@ const Course = ( {course} ) => {
   return (
     <div>
       <Header name = {course.name} />
-      <Content kurssi = {course.parts}/>
+      <Content kurssi = {course.parts} />
+      <Total kurssi = {course.parts} />
     </div>
     
   )
 }
 
-/*
-const Total = (props) => {
 
-  return (
-    <div>
-      <p> Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises} </p>
-    </div>
-  )
-}
-*/
 
 const App = () => {
 
@@ -72,6 +76,16 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Test Course',
+        exercises: 10,
+        id: 4
+      },
+      {
+        name: 'Test Course 2',
+        exercises: 14,
+        id: 5
       }
     ]
   }
