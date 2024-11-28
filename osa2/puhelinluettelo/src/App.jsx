@@ -13,13 +13,16 @@ const App = () => {
 
   const [newName, setNewName] = useState('')
 
-  
+
   const addName = (event) => {
+
     event.preventDefault()
 
     const names = persons.map(person => person.name)
     
     console.log(typeof(newName))
+
+    if (newName == "") return
 
     if (names.includes(newName)) {
       window.alert(`${newName} is already added to phonebook`)
