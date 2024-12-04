@@ -8,13 +8,29 @@ const Person = (props) => {
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas',
-      number: '0404440404'
-    }
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]) 
+
+  var etsitaanko = false
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [etsitty, setEtsitty] = useState('')
+
+  console.log("hakuehto=", etsitty)
+
+  if (etsitty != '') etsitaanko = true
+  if (etsitty == '') etsitaanko = false
+
+  console.log(etsitaanko)
+
+
+  const personsToShow = etsitaanko
+  ? persons.filter(person => person.name.includes(etsitty) === true)
+  : persons
 
 
   const addPerson = (event) => {
@@ -44,11 +60,17 @@ const App = () => {
     }
 
     setPersons(persons.concat(newPerson))
+    setEtsitty('')
     setNewName('')
     setNewNumber('')
 
     console.log({persons})
     console.log({names})
+  }
+
+  const handleEtsiminen = (event) => {
+    console.log(event.target.value)
+    setEtsitty(event.target.value)
   }
 
   const handleNameChange = (event) => {
@@ -65,13 +87,21 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
+      <div>filter shown with  
+
+          <input value={etsitty}
+          onChange={handleEtsiminen}/>
+          </div>
+
+      <h2>Add person</h2>
+
       <form onSubmit={addPerson}>
 
         <div>
           <div>name: 
           <input value={newName}
           onChange={handleNameChange}/>
-        </div>
+          </div>
         <div>
 
         </div> number: 
@@ -88,7 +118,7 @@ const App = () => {
       <h2>Numbers</h2>
       
       <ul>
-        {persons.map(person => 
+        {personsToShow.map(person => 
           <Person key={person.name} name={person.name} number={person.number}/>
         )}
       </ul>
