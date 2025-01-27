@@ -1,36 +1,52 @@
 import { useState } from 'react'
 
+
 const Person = (props) => {
   return (
     <p>{props.name} {props.number}</p>
   )
 }
 
+const NimiLista = (props) => {
+
+  console.log(props.naytettavat)
+  return (
+    <ul>
+      {props.naytettavat.map(person => 
+        <Person key={person.name} name={person.name} number={person.number}/>
+      )}
+    </ul>
+  )
+
+}
+
 const App = () => {
+
+  var etsitaanko = false
+
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
     { name: 'Ada Lovelace', number: '39-44-5323523' },
     { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+    { name: 'Mary Poppendieck', number: '39-23-6423122' },
+    { name: 'Mary Poppenrieck', number: '34-23-6423123' }
   ]) 
-
-  var etsitaanko = false
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [etsitty, setEtsitty] = useState('')
 
-  console.log("hakuehto=", etsitty)
+  //console.log("hakuehto=", etsitty)
 
   if (etsitty != '') etsitaanko = true
   if (etsitty == '') etsitaanko = false
 
-  console.log(etsitaanko)
-
-
+  //console.log(etsitaanko)
+ 
   const personsToShow = etsitaanko
   ? persons.filter(person => person.name.includes(etsitty) === true)
   : persons
+
 
 
   const addPerson = (event) => {
@@ -85,26 +101,26 @@ const App = () => {
 
   return (
     <div>
+
       <h2>Phonebook</h2>
 
       <div>filter shown with  
 
           <input value={etsitty}
           onChange={handleEtsiminen}/>
-          </div>
+
+      </div>
 
       <h2>Add person</h2>
 
       <form onSubmit={addPerson}>
 
-        <div>
-          <div>name: 
+        <div> name: 
           <input value={newName}
           onChange={handleNameChange}/>
-          </div>
-        <div>
+        </div>
 
-        </div> number: 
+        <div> number: 
           <input value={newNumber}
           onChange={handleNumberChange}/>
         </div>
@@ -117,11 +133,7 @@ const App = () => {
 
       <h2>Numbers</h2>
       
-      <ul>
-        {personsToShow.map(person => 
-          <Person key={person.name} name={person.name} number={person.number}/>
-        )}
-      </ul>
+      <NimiLista naytettavat ={personsToShow}/>
 
     </div>
   )
