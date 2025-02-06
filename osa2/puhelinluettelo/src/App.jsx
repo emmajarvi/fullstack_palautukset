@@ -30,6 +30,13 @@ const PersonForm = (props) => {
   )
 }
 
+const Filtterointi = (props) => {
+  return(
+    <input value={props.etsittava}
+           onChange={props.handleEtsinta}/>
+  )
+}
+
 const NimiLista = (props) => {
 
   console.log(props.naytettavat)
@@ -68,7 +75,6 @@ const App = () => {
   const personsToShow = etsitaanko
   ? persons.filter(person => person.name.includes(etsitty) === true)
   : persons
-
 
 
   const addPerson = (event) => {
@@ -125,14 +131,13 @@ const App = () => {
   return (
     <div>
 
-     <h2>Phonebook</h2>
+      <h2>Phonebook</h2>
 
-      <div>filter shown with  
+        <div>filter shown with  
 
-          <input value={etsitty}
-          onChange={handleEtsiminen}/>
+          <Filtterointi etsittava = {etsitty} handleEtsinta = {handleEtsiminen}/>
 
-      </div>
+        </div>
 
       <h2>Add person</h2>
 
