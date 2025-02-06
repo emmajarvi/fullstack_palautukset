@@ -1,12 +1,6 @@
 import { useState } from 'react'
 
 
-const Person = (props) => {
-  return (
-    <p>{props.name} {props.number}</p>
-  )
-}
-
 const PersonForm = (props) => {
 
   return(
@@ -49,6 +43,12 @@ const NimiLista = (props) => {
   )
 }
 
+const Person = (props) => {
+  return (
+    <p>{props.name} {props.number}</p>
+  )
+}
+
 const App = () => {
 
   var etsitaanko = false
@@ -73,7 +73,7 @@ const App = () => {
   //console.log(etsitaanko)
  
   const personsToShow = etsitaanko
-  ? persons.filter(person => person.name.includes(etsitty) === true)
+  ? persons.filter(person => person.name.toLowerCase().includes(etsitty.toLowerCase()) === true)
   : persons
 
 
