@@ -7,6 +7,29 @@ const Person = (props) => {
   )
 }
 
+const PersonForm = (props) => {
+
+  return(
+    <form onSubmit={props.lisaaHenkilo}>
+
+        <div> name: 
+          <input value={props.uusiNimi}
+          onChange={props.handleNimi}/>
+        </div>
+
+        <div> number: 
+          <input value={props.uusiNumero}
+          onChange={props.handleNumero}/>
+        </div>
+        
+        <div>
+          <button type="submit">add</button>
+        </div>
+
+    </form>
+  )
+}
+
 const NimiLista = (props) => {
 
   console.log(props.naytettavat)
@@ -17,7 +40,6 @@ const NimiLista = (props) => {
       )}
     </ul>
   )
-
 }
 
 const App = () => {
@@ -99,10 +121,11 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+
   return (
     <div>
 
-      <h2>Phonebook</h2>
+     <h2>Phonebook</h2>
 
       <div>filter shown with  
 
@@ -113,23 +136,8 @@ const App = () => {
 
       <h2>Add person</h2>
 
-      <form onSubmit={addPerson}>
-
-        <div> name: 
-          <input value={newName}
-          onChange={handleNameChange}/>
-        </div>
-
-        <div> number: 
-          <input value={newNumber}
-          onChange={handleNumberChange}/>
-        </div>
-        
-        <div>
-          <button type="submit">add</button>
-        </div>
-
-      </form>
+      <PersonForm uusiNimi = {newName} uusiNumero ={newNumber} handleNimi = {handleNameChange}
+                      handleNumero = {handleNumberChange} lisaaHenkilo = {addPerson}/>
 
       <h2>Numbers</h2>
       
