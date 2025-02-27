@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import personService from './services/persons'
+
 
 const PersonForm = (props) => {
 
@@ -59,11 +61,9 @@ const App = () => {
   const [etsitty, setEtsitty] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
@@ -107,14 +107,14 @@ const App = () => {
       number: newNumber
     }
 
-    axios
-    .post('http://localhost:3001/persons', newPerson)
-    .then(response => {
-      setPersons(persons.concat(response.data))
-      setNewName('')
-      setNewNumber('')
-    })
-    
+    personService
+      .create(newPerson)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      })
+
     console.log({persons})
     console.log({names})
   }
