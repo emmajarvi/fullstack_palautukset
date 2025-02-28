@@ -36,7 +36,7 @@ const Filtterointi = (props) => {
 }
 
 // Kaikkien henkilöiden renderöimisen
-const NimiLista = ({naytettavat, poistaminen}) => {
+const NimiLista = ({naytettavat, poistaminen, paivittaminen}) => {
 
   console.log(naytettavat)
   console.log(naytettavat.map(person => person.id))
@@ -44,13 +44,13 @@ const NimiLista = ({naytettavat, poistaminen}) => {
   return (
     <ul>
       {naytettavat.map(person => 
-        <Person key = {person.id} name={person.name} number={person.number}  poistaminen = {() => poistaminen(person.id, person.name)}
+        <Person key = {person.id} name={person.name} number={person.number}  
+                poistaminen = {() => poistaminen(person.id, person.name)}
         />
       )} 
     </ul>
   )
 }
-
 
 // Yhden henkilön tietojen sekä poistonapin renderöiminen
 const Person = (props) => {
@@ -103,19 +103,26 @@ const App = () => {
     if (newName == "") return
     if (newNumber == "") return
 
+    const newPerson = {
+      name: newName,
+      number: newNumber
+    }
+
     if (names.includes(newName)) {
-      window.alert(`${newName} is already added to phonebook`)
-      return
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const person = persons.find(n => n.name === newName)
+        updateNumber(person.id)
+        return
+      } else {
+        setNewName('') 
+        setNewNumber('')
+        return
+      }
     }
 
     if (numbers.includes(newNumber)) {
       window.alert(`${newNumber} is already added to phonebook`)
       return
-    }
-
-    const newPerson = {
-      name: newName,
-      number: newNumber
     }
 
     personService
@@ -132,17 +139,38 @@ const App = () => {
 
   const deletePerson = (id, nimi) => {
 
-    console.log()
-    window.confirm(`Delete ${nimi} ?`)
-    personService
-      .deleting(id)
-      .then(console.log(`minä poistin henkilön jonka id on ${id}`))
-      .catch(error => {
-        alert(
-          `the person '${nimi}' was already deleted from server`
-        )
-      })
+    if (window.confirm(`Delete ${nimi} ?`)) {
+      personService
+        .deleting(id)
+        .then(response => {
+          console.log(`minä poistin henkilön jonka id on ${id}`)
+        })
+        .catch(error => {
+          alert(
+            `the person '${nimi}' was already deleted from server`
+          )
+        })
+    } 
+    else return;
 
+  }
+
+  const updateNumber = (id) => {
+
+    console.log(`vaihdan henkilön ${id} numeron`)  
+
+    const person = persons.find(n => n.id === id)
+        const changedPerson = { ...person, number: newNumber }
+    
+        personService
+          .update(id, changedPerson)
+            .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+          }).catch(error => {
+            alert(
+              `couldn't update the number for '${person.name}'`
+            )
+          })
   }
 
   const handleEtsiminen = (event) => {
