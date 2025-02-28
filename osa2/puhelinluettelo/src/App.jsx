@@ -3,6 +3,7 @@ import axios from 'axios'
 import personService from './services/persons'
 
 
+// Henkilön lisäämiseen tarvittavien elementtien renderöiminen
 const PersonForm = (props) => {
 
   return(
@@ -26,6 +27,7 @@ const PersonForm = (props) => {
   )
 }
 
+// Filtteröintiin tarvittavien elementtien renderöinti
 const Filtterointi = (props) => {
   return(
     <input value={props.etsittava}
@@ -33,21 +35,29 @@ const Filtterointi = (props) => {
   )
 }
 
-const NimiLista = (props) => {
+// Kaikkien henkilöiden renderöimisen
+const NimiLista = ({naytettavat, poistaminen}) => {
 
-  console.log(props.naytettavat)
+  console.log(naytettavat)
+  console.log(naytettavat.map(person => person.id))
+
   return (
     <ul>
-      {props.naytettavat.map(person => 
-        <Person key={person.name} name={person.name} number={person.number}/>
-      )}
+      {naytettavat.map(person => 
+        <Person key = {person.id} name={person.name} number={person.number}  poistaminen = {() => poistaminen(person.id, person.name)}
+        />
+      )} 
     </ul>
   )
 }
 
+
+// Yhden henkilön tietojen sekä poistonapin renderöiminen
 const Person = (props) => {
   return (
-    <p>{props.name} {props.number}</p>
+    <div>
+      <p> {props.name} {props.number}</p> <button onClick={props.poistaminen}>delete</button>
+    </div>
   )
 }
 
@@ -80,6 +90,7 @@ const App = () => {
   const personsToShow = etsitaanko
   ? persons.filter(person => person.name.toLowerCase().includes(etsitty.toLowerCase()) === true)
   : persons
+
 
 
   const addPerson = (event) => {
@@ -119,6 +130,21 @@ const App = () => {
     console.log({names})
   }
 
+  const deletePerson = (id, nimi) => {
+
+    console.log()
+    window.confirm(`Delete ${nimi} ?`)
+    personService
+      .deleting(id)
+      .then(console.log(`minä poistin henkilön jonka id on ${id}`))
+      .catch(error => {
+        alert(
+          `the person '${nimi}' was already deleted from server`
+        )
+      })
+
+  }
+
   const handleEtsiminen = (event) => {
     console.log(event.target.value)
     setEtsitty(event.target.value)
@@ -153,7 +179,7 @@ const App = () => {
 
       <h2>Numbers</h2>
       
-      <NimiLista naytettavat ={personsToShow}/>
+      <NimiLista naytettavat ={personsToShow} poistaminen={deletePerson}/>
 
     </div>
   )
