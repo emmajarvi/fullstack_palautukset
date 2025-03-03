@@ -1,7 +1,31 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
+import './index.css'
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="notification">
+      {message}
+    </div>
+  )
+}
+
+const ErrorNotification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )
+}
 
 // Henkilön lisäämiseen tarvittavien elementtien renderöiminen
 const PersonForm = (props) => {
@@ -69,6 +93,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [etsitty, setEtsitty] = useState('')
+  const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -108,16 +134,22 @@ const App = () => {
       number: newNumber
     }
 
+    // Tarkistetaan onko saman niminen jo puhelinluettelossa
+    // Jos on, kysytään päivitetäänkö numero
     if (names.includes(newName)) {
+
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const person = persons.find(n => n.name === newName)
         updateNumber(person.id)
+        setNewName('') 
+        setNewNumber('')
         return
       } else {
         setNewName('') 
         setNewNumber('')
         return
       }
+
     }
 
     if (numbers.includes(newNumber)) {
@@ -129,12 +161,21 @@ const App = () => {
       .create(newPerson)
       .then(response => {
         setPersons(persons.concat(response.data))
+
+
+      setMessage(
+        `Added ${newPerson.name}`)
+        
+      setTimeout(() => {
+      setMessage(null)}, 5000)
+
         setNewName('')
         setNewNumber('')
       })
 
     console.log({persons})
     console.log({names})
+    
   }
 
   const deletePerson = (id, nimi) => {
@@ -144,14 +185,19 @@ const App = () => {
         .deleting(id)
         .then(response => {
           console.log(`minä poistin henkilön jonka id on ${id}`)
+          setMessage(
+            `Deleted ${nimi}`)
+            
+          setTimeout(() => {
+          setMessage(null)}, 5000)
         })
         .catch(error => {
           alert(
-            `the person '${nimi}' was already deleted from server`
+            `the person '${nimi}' was already deleted from the server`
           )
         })
-    } 
-    else return;
+
+    } else return;
 
   }
 
@@ -166,11 +212,29 @@ const App = () => {
           .update(id, changedPerson)
             .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
-          }).catch(error => {
-            alert(
-              `couldn't update the number for '${person.name}'`
-            )
-          })
+          
+            setMessage(
+              `Number for ${person.name} was changed`)
+
+               setTimeout(() => {
+                 setMessage(null)
+               }, 5000) }).catch(error => {
+                setErrorMessage(
+                  `The person ${person.name} has already been removed from the server`) 
+                setTimeout(() => {
+                setErrorMessage(null)}, 5000)
+  
+                setPersons(persons.filter(n => n.id !== id))
+              })
+
+             .catch(error => {
+               alert(
+                 `couldn't update the number for '${person.name}'`
+               )
+              })
+
+
+      
   }
 
   const handleEtsiminen = (event) => {
@@ -193,6 +257,9 @@ const App = () => {
     <div>
 
       <h2>Phonebook</h2>
+
+      <Notification message={message}/>
+      <ErrorNotification message={errorMessage}/>
 
         <div>filter shown with  
 
