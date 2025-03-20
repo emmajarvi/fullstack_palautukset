@@ -190,6 +190,8 @@ const App = () => {
             
           setTimeout(() => {
           setMessage(null)}, 5000)
+
+          setPersons(persons.filter(n => n.id !== id))
         })
         .catch(error => {
           alert(
@@ -212,29 +214,31 @@ const App = () => {
           .update(id, changedPerson)
             .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
-          
+              
+            // ilmoitus onnistuneesta muokkauksesta
             setMessage(
               `Number for ${person.name} was changed`)
 
-               setTimeout(() => {
-                 setMessage(null)
-               }, 5000) }).catch(error => {
-                setErrorMessage(
-                  `The person ${person.name} has already been removed from the server`) 
-                setTimeout(() => {
-                setErrorMessage(null)}, 5000)
-  
-                setPersons(persons.filter(n => n.id !== id))
-              })
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000) })
 
-             .catch(error => {
-               alert(
-                 `couldn't update the number for '${person.name}'`
-               )
-              })
+            // ilmoitus tilanteessa, jossa henkilö on poistettu serveriltä toisella selaimella
+            .catch(error => {
+            setErrorMessage(
+              `The person ${person.name} has already been removed from the server`) 
+            setTimeout(() => {
+            setErrorMessage(null)}, 5000)
 
-
-      
+            setPersons(persons.filter(n => n.id !== id))
+            })
+            
+          //selainilmoitus jos muokkaaminen ei muusta syystä onnistu
+          .catch(error => {
+            alert(
+              `couldn't update the number for '${person.name}'`
+            )
+          })
   }
 
   const handleEtsiminen = (event) => {
