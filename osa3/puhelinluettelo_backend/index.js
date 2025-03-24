@@ -1,4 +1,5 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 let persons = [
@@ -27,7 +28,15 @@ let persons = [
     }
 ]
 
+morgan.token('body', req  => {
+    return JSON.stringify(req.body)
+})
+
+  
+var logger = morgan(':method :url :status :res[content-length] - :response-time ms :body')
+
 app.use(express.json())
+app.use(logger)
 
 app.get('/', (request, response) => {
     response.send('<h1>Puhelinluettelo</h1>')
@@ -73,7 +82,7 @@ app.post('/api/persons', (request, response) => {
           error: 'name and number missing' 
         })
     }
-    
+
     if (!body.name) {
       return response.status(400).json({ 
         error: 'name missing' 
@@ -116,6 +125,12 @@ app.get('/info', (request, response) => {
        ${pvm}`
     )
 })
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT)
