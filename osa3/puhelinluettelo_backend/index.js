@@ -1,6 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
-//const cors = require('cors')
+const cors = require('cors')
 
 const app = express()
 
@@ -39,6 +39,7 @@ var logger = morgan(':method :url :status :res[content-length] - :response-time 
 
 app.use(express.json())
 app.use(logger)
+app.use(cors())
 
 app.get('/', (request, response) => {
     response.send('<h1>Puhelinluettelo</h1>')
