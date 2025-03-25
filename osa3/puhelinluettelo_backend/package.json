@@ -1,8 +1,7 @@
 {
   "name": "puhelinluettelo_backend",
   "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
+  "license": "MIT",
   "author": "Emma Järvinen",
   "type": "commonjs",
   "main": "index.js",

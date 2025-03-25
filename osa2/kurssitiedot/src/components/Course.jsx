@@ -30,7 +30,7 @@ const Course = ( {course} ) => {
       )
     }
 
-      const Total = ( {kurssi} ) => {
+    const Total = ( {kurssi} ) => {
 
         const tehtavat = kurssi.map(osa => osa.exercises)
 
@@ -41,7 +41,7 @@ const Course = ( {course} ) => {
             <b> Total of {summaaTehtavat} exercises </b>
           </div>
         )
-      }
+    }
 
   return (
     <div>
