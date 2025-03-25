@@ -40,6 +40,7 @@ var logger = morgan(':method :url :status :res[content-length] - :response-time 
 app.use(express.json())
 app.use(logger)
 app.use(cors())
+app.use(express.static('dist'))
 
 app.get('/', (request, response) => {
     response.send('<h1>Puhelinluettelo</h1>')
