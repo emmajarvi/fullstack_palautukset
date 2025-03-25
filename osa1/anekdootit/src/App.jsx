@@ -29,11 +29,7 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [aani, aanesta] = useState(0)
 
-  const arvoAnekdootti = () => {
-
-    setSelected(RandomInt(8))
-    
-  }
+  const arvoAnekdootti = () => setSelected(RandomInt(8))
 
   const aanestys = () => {
 
