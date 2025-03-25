@@ -6,7 +6,7 @@
     "start": "node index.js",
     "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf dist && cd ../../esimerkit && npm run build && cp -r dist ../../esimerkit",
+    "build:ui": "rm -rf dist && cd ../../osa2/esimerkit && npm run build && cp -r dist ../../osa3/esimerkit",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "author": "Emma Järvinen",
