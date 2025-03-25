@@ -260,7 +260,7 @@ const App = () => {
   return (
     <div>
 
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
 
       <Notification message={message}/>
       <ErrorNotification message={errorMessage}/>
