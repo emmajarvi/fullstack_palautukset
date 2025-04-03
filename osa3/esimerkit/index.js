@@ -3,11 +3,6 @@ const express = require('express')
 const app = express()
 const Note = require('./models/note')
 
-/*
-const url = `mongodb+srv://fullstack:${password}@cluster0.e7osvqp.mongodb.net/noteApp?
-             retryWrites=true&w=majority&appName=Cluster0`
-*/
-
 let notes = [
   {
     id: "1",
