@@ -50,6 +50,7 @@ app.get('/', (request, response) => {
 })
   
 app.get('/api/persons', (request, response) => {
+
     Person.find({}).then(persons => {
       response.json(persons)
     })
@@ -150,7 +151,7 @@ app.get('/info', (request, response) => {
   })
 })
 
-const PORT = process.env.PORT 
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })

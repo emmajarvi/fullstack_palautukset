@@ -1,3 +1,5 @@
+/*
+
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
@@ -40,3 +42,4 @@ if (process.argv.length  < 5) {
         mongoose.connection.close()
       })
 }
+*/s
