@@ -53,7 +53,7 @@ app.get('/api/persons', (request, response) => {
     Person.find({}).then(persons => {
       response.json(persons)
     })
-  })
+})
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
@@ -80,7 +80,7 @@ app.post('/api/persons', (request, response) => {
 
     const body = request.body
     
-    /*const names = persons.map(n => n.name)
+    // const names = persons.map(n => n.name)
 
     if (!body.name & !body.number) {
         return response.status(400).json({ 
@@ -99,14 +99,14 @@ app.post('/api/persons', (request, response) => {
           error: 'number missing' 
         })
     }
-    
+    /*
     if (names.includes(body.name)){
         return response.status(400).json({ 
           error: 'name must be unique' 
         })
     }
-        */
-  
+    */ 
+
     const person = new Person({
         name: body.name,
         number: body.number,
@@ -116,6 +116,25 @@ app.post('/api/persons', (request, response) => {
         response.json(savedPerson)
     })
     
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
+  
+  Person.findById(request.params.id)
+  .then(person => {
+    if (!person) {
+      return response.status(404).end()
+    }
+
+    person.name = name
+    person.number = number
+
+    return person.save().then((updatedPerson) => {
+        response.json(updatedPerson)
+      })
+  })
+  .catch((error) => next(error))
 })
 
 app.get('/info', (request, response) => {
