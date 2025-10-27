@@ -77,7 +77,7 @@ app.post('/api/persons', (request, response) => {
     person.save().then(savedPerson => {
         response.json(savedPerson)
     }).catch(error => {
-      console.log(error.response.data)
+      console.log(error.message)
     })
     
 })
