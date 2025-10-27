@@ -5,41 +5,11 @@ const Person = require('./models/person')
 
 const app = express()
 
-/*
-let persons = [
-    {
-        id: "1",
-        name: "Ada Lovelace",
-        number: "00-123-31432"
-    },
-
-    {
-        id: "2",
-        name: "Bilbo Reppuli",
-        number: "23-142-186-4235"
-    },
-
-    {
-        id: "3",
-        name: "Chappell Roan",
-        number: "12-435-231341"
-    },
-
-    {
-        id: "4",
-        name: "Emma",
-        number: "050 123 2122"
-    }
-]
-*/ 
-
 morgan.token('body', req  => {
     return JSON.stringify(req.body)
 })
 
-  
 var logger = morgan(':method :url :status :res[content-length] - :response-time ms :body')
-
 
 app.use(express.static('dist'))
 app.use(express.json())
@@ -80,8 +50,6 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response) => {
 
     const body = request.body
-    
-    // const names = persons.map(n => n.name)
 
     if (!body.name & !body.number) {
         return response.status(400).json({ 
@@ -100,13 +68,6 @@ app.post('/api/persons', (request, response) => {
           error: 'number missing' 
         })
     }
-    /*
-    if (names.includes(body.name)){
-        return response.status(400).json({ 
-          error: 'name must be unique' 
-        })
-    }
-    */ 
 
     const person = new Person({
         name: body.name,
@@ -115,6 +76,8 @@ app.post('/api/persons', (request, response) => {
     
     person.save().then(savedPerson => {
         response.json(savedPerson)
+    }).catch(error => {
+      console.log(error.response.data)
     })
     
 })
