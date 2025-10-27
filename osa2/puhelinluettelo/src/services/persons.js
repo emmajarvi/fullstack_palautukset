@@ -9,7 +9,7 @@ const create = newObject => {
     return axios.post(baseUrl, newObject)
 }
 
-const deleting = (id) => {
+const remove = (id) => {
     return axios.delete(`${baseUrl}/${id}`)
 }
 
@@ -21,6 +21,6 @@ const update = (id, newObject) => {
 export default { 
     getAll: getAll, 
     create: create,
-    deleting: deleting,
+    remove: remove,
     update: update
 }

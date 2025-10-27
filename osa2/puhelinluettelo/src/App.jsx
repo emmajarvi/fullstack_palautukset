@@ -63,7 +63,7 @@ const Filtterointi = (props) => {
 const NimiLista = ({naytettavat, poistaminen, paivittaminen}) => {
 
   console.log(naytettavat)
-  console.log(naytettavat.map(person => person.id))
+  //console.log(naytettavat.map(person => person.id))
 
   return (
     <ul>
@@ -105,19 +105,12 @@ const App = () => {
   }, [])
   console.log('render', persons.length, 'persons')
 
-
-  //console.log("hakuehto=", etsitty)
-
   if (etsitty != '') etsitaanko = true
   if (etsitty == '') etsitaanko = false
 
-  //console.log(etsitaanko)
- 
   const personsToShow = etsitaanko
   ? persons.filter(person => person.name.toLowerCase().includes(etsitty.toLowerCase()) === true)
   : persons
-
-
 
   const addPerson = (event) => {
 
@@ -137,7 +130,6 @@ const App = () => {
     // Tarkistetaan onko saman niminen jo puhelinluettelossa
     // Jos on, kysytään päivitetäänkö numero
     if (names.includes(newName)) {
-
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const person = persons.find(n => n.name === newName)
         updateNumber(person.id)
@@ -149,7 +141,6 @@ const App = () => {
         setNewNumber('')
         return
       }
-
     }
 
     if (numbers.includes(newNumber)) {
@@ -161,8 +152,6 @@ const App = () => {
       .create(newPerson)
       .then(response => {
         setPersons(persons.concat(response.data))
-
-
       setMessage(
         `Added ${newPerson.name}`)
         
@@ -172,17 +161,18 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
-
-    console.log({persons})
-    console.log({names})
-    
+      .catch(error => {
+        const errorMsg = error.response?.data?.error || error.response?.data || 'Unknown error'
+        setErrorMessage(errorMsg)
+        setTimeout(() => setErrorMessage(null), 5000)
+      })
   }
 
   const deletePerson = (id, nimi) => {
 
     if (window.confirm(`Delete ${nimi} ?`)) {
       personService
-        .deleting(id)
+        .remove(id)
         .then(response => {
           console.log(`minä poistin henkilön jonka id on ${id}`)
           setMessage(

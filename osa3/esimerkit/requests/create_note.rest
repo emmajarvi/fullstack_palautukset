@@ -2,6 +2,6 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "Posting notes again is fun and interesting",
+    "content": "abc",
     "important": false
 }
