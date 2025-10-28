@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Note from './components/Note'
 import noteService from './services/notes'
 import './index.css'
 
-const App = (props) => {
+const App = () => {
   
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState(
@@ -29,6 +28,7 @@ const App = (props) => {
         .then(returnedNote => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       }).catch(error => {
+        console.log(error)
         alert(
           `the note '${note.content}' was already deleted from server`
         )
@@ -36,6 +36,7 @@ const App = (props) => {
       })
   }
 
+  /*
   const hook = () => {
     console.log('effect')
     axios
@@ -45,8 +46,8 @@ const App = (props) => {
         setNotes(response.data)
       })
   }
+  */
   
-
   console.log('render', notes.length, 'notes')
 
 
