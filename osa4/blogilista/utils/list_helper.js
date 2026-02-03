@@ -10,10 +10,22 @@ const totalLikes = (blogs) => {
 
   return blogs.length === 0 
   ? 0 
-  :blogs.reduce(reducer, 0) 
+  : blogs.reduce(reducer, 0) 
+}
+
+const favoriteBlog = (blogs) => {
+  const reducer = (prevItem, newItem) => {
+    if (prevItem.likes > newItem.likes) return prevItem
+    else return newItem
+  }
+
+  return blogs.length === 0 
+  ? 0 
+  : blogs.reduce(reducer, blogs[0])
 }
 
 module.exports = {
   dummy,
-  totalLikes
+  totalLikes,
+  favoriteBlog
 }
