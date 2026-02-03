@@ -92,8 +92,8 @@ describe('total likes', () => {
 
 describe('blog with most likes', () => {
 
-  test('in empty list is zero', () => {
-    assert.strictEqual(listHelper.favoriteBlog(emptyBlogList), 0)
+  test('in empty list is null', () => {
+    assert.strictEqual(listHelper.favoriteBlog(emptyBlogList), null)
   }) 
  
   test('when list only has one blog is that blog', () => {
@@ -104,5 +104,29 @@ describe('blog with most likes', () => {
     assert.deepStrictEqual(listHelper.favoriteBlog(blogs), blogs[2])
   })
   
+})
+
+describe('author with most blogs', () => {
+  test('in empty list is null', () => {
+    assert.strictEqual(listHelper.mostBlogs(emptyBlogList), null)
+  })
+
+  test('in a list with one blog is that blogs author with one blog', () => {
+    const result = {
+      author: 'Edsger W. Dijkstra',
+      blogs: 1
+    }
+
+    assert.deepStrictEqual(listHelper.mostBlogs(listWithOneBlog), result)
+  })
+
+  test('in a longer list is the author with most likes', () => {
+    const result = {
+      author: "Robert C. Martin",
+      blogs: 3
+    }
+
+    assert.deepStrictEqual(listHelper.mostBlogs(blogs), result)
+  })
 })
 
