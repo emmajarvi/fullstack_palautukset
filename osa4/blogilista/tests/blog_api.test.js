@@ -38,10 +38,27 @@ test('a valid blog can be added', async () => {
   assert(titles.includes('Lisäys testi blogi'))
 })
 
-test.only('blog with no title is not added', async () => {
+test('blog with no title is not added', async () => {
   const newBlog = {
     author: 'Maija Meikäläinen',
     url: 'tataeipitaisilisata.fi',
+    likes: 69,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+})
+
+test('blog with no url is not added', async () => {
+  const newBlog = {
+    title: 'Tämä ei onnistu',
+    author: 'Maija Meikäläinen',
     likes: 69,
   }
 
@@ -101,6 +118,14 @@ test('a blog can be deleted', async () => {
   assert(!ids.includes(blogToDelete.id))
 
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+})
+
+test('blogs have field named id, not _id', async () => {
+  const response = await api.get('/api/blogs')
+  response.body.forEach(blog => {
+    assert.ok(blog.id, 'Blog should have id field')
+    assert.strictEqual(blog._id, undefined, 'Blog should not have _id field')
+  })
 })
 
 after(async () => {
