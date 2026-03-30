@@ -1,10 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOiI2OWNhYTFkN2QxZWM4MGVhYTg3YmMzNGIiLCJpYXQiOjE3NzQ4ODc2Mzh9.iJMjV07J6qsiPpgYYrP-hkvG8_rkjJh2Ae1WmNarLqM
 
 {
-    "title": "Super Admin Blog",
-    "author": "Super Admin",
+    "title": "Esimerkillinen blogi",
+    "author": "Esi Merkkinen",
     "url": "example.com",
-    "likes": 420,
-    "userId": "69ca700a7cf8bf66352a1feb"
+    "likes": 100,
+    "userId": "69caa1ecd1ec80eaa87bc34d"
 }
