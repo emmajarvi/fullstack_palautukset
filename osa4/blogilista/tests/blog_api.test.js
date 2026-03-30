@@ -7,8 +7,6 @@ const app = require('../app')
 const Blog = require('../models/blog')
 const api = supertest(app)
 
-
-
 const helper = require('./test_helper')
 
 describe('when there are initially some blogs saved', () => {
