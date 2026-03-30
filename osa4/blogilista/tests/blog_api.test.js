@@ -5,6 +5,7 @@ const supertest = require('supertest')
 const app = require('../app')
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const api = supertest(app)
 
 const helper = require('./test_helper')
@@ -12,7 +13,15 @@ const helper = require('./test_helper')
 describe('when there are initially some blogs saved', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
-    await Blog.insertMany(helper.initialBlogs)
+    await User.deleteMany({})
+
+    const bcrypt = require('bcrypt')
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'testuser', name: 'Test User', passwordHash })
+    await user.save()
+
+    const blogsWithUser = helper.initialBlogs.map(b => ({ ...b, user: user._id }))
+    await Blog.insertMany(blogsWithUser)
   })
 
   test('blogs are returned as json', async () => {
@@ -57,11 +66,15 @@ describe('when there are initially some blogs saved', () => {
 
   describe('addition of a new blog', () => {
     test('succeeds with valid data', async () => {
+      const users = await helper.usersInDb()
+      const userId = users[0].id
+
       const newBlog = {
         title: 'Lisäys testi blogi',
         author: 'Esi Merkkinen',
         url: 'lisataanblogi.fi',
         likes: 67,
+        userId,
       }
 
       await api
@@ -78,10 +91,14 @@ describe('when there are initially some blogs saved', () => {
     })
 
     test('if likes is missing, it defaults to 0', async () => {
+      const users = await helper.usersInDb()
+      const userId = users[0].id
+
       const newBlog = {
         title: 'Blog with no likes',
         author: 'No Likes',
-        url: 'nolikes.com'
+        url: 'nolikes.com',
+        userId,
       }
 
       const response = await api
