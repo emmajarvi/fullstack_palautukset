@@ -66,19 +66,22 @@ describe('when there are initially some blogs saved', () => {
 
   describe('addition of a new blog', () => {
     test('succeeds with valid data', async () => {
-      const users = await helper.usersInDb()
-      const userId = users[0].id
+      const loginResponse = await api
+        .post('/api/login')
+        .send({ username: 'testuser', password: 'sekret' })
+
+      const token = loginResponse.body.token
 
       const newBlog = {
         title: 'Lisäys testi blogi',
         author: 'Esi Merkkinen',
         url: 'lisataanblogi.fi',
         likes: 67,
-        userId,
       }
 
       await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -91,18 +94,21 @@ describe('when there are initially some blogs saved', () => {
     })
 
     test('if likes is missing, it defaults to 0', async () => {
-      const users = await helper.usersInDb()
-      const userId = users[0].id
+      const loginResponse = await api
+        .post('/api/login')
+        .send({ username: 'testuser', password: 'sekret' })
+
+      const token = loginResponse.body.token
 
       const newBlog = {
         title: 'Blog with no likes',
         author: 'No Likes',
         url: 'nolikes.com',
-        userId,
       }
 
       const response = await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -111,6 +117,12 @@ describe('when there are initially some blogs saved', () => {
     })
 
     test('fails with status code 400 if title is missing', async () => {
+      const loginResponse = await api
+        .post('/api/login')
+        .send({ username: 'testuser', password: 'sekret' })
+
+      const token = loginResponse.body.token
+
       const newBlog = {
         author: 'Maija Meikäläinen',
         url: 'tataeipitaisilisata.fi',
@@ -119,6 +131,7 @@ describe('when there are initially some blogs saved', () => {
 
       await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(400)
 
@@ -127,6 +140,12 @@ describe('when there are initially some blogs saved', () => {
     })
 
     test('fails with status code 400 if url is missing', async () => {
+      const loginResponse = await api
+        .post('/api/login')
+        .send({ username: 'testuser', password: 'sekret' })
+
+      const token = loginResponse.body.token
+
       const newBlog = {
         title: 'Tämä ei onnistu',
         author: 'Maija Meikäläinen',
@@ -135,6 +154,7 @@ describe('when there are initially some blogs saved', () => {
 
       await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(400)
 
