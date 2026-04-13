@@ -161,6 +161,23 @@ describe('when there are initially some blogs saved', () => {
       const blogsAtEnd = await helper.blogsInDb()
       assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
     })
+
+    test('fails with status code 401 if token is not provided', async () => {
+      const newBlog = {
+        title: 'Unauthorized blog',
+        author: 'No Token',
+        url: 'notoken.com',
+        likes: 0,
+      }
+
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
+
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+    })
   })
 
   describe('deletion of a blog', () => {
