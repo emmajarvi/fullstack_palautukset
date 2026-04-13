@@ -165,12 +165,19 @@ describe('when there are initially some blogs saved', () => {
 
   describe('deletion of a blog', () => {
     test('succeeds with status code 204 if id is valid', async () => {
+      const loginResponse = await api
+        .post('/api/login')
+        .send({ username: 'testuser', password: 'sekret' })
+
+      const token = loginResponse.body.token
+
       const blogsAtStart = await helper.blogsInDb()
       const blogToDelete = blogsAtStart[0]
 
       await api
         .delete(`/api/blogs/${blogToDelete.id}`)
-        .expect(204)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
 
       const blogsAtEnd = await helper.blogsInDb()
 
