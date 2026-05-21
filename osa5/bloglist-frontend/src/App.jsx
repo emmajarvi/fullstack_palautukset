@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import ErrorNotification from './components/ErrorNotification'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [message, setMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
 
@@ -30,7 +33,8 @@ const App = () => {
   return (
     <div>
       <h1>Blogilista</h1>
-      <Notification message={errorMessage} />
+      <ErrorNotification message={errorMessage} />
+      <Notification message={message}/>
       {!user && (
         <>
           <h2>Login</h2>
@@ -38,6 +42,7 @@ const App = () => {
             setUsername={setUsername} 
             setPassword={setPassword}
             setErrorMessage={setErrorMessage}
+            setMessage={setMessage}
             setUser={setUser}
             username={username}
             password={password}
@@ -63,6 +68,7 @@ const App = () => {
           <h2>Lisää uusi blogi</h2>
           <BlogForm
               setErrorMessage={setErrorMessage}
+              setMessage={setMessage}
               setBlogs={setBlogs}
           />
         </div>

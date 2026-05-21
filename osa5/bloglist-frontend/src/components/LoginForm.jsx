@@ -1,5 +1,6 @@
  import loginService from '../services/login'
  import blogService from '../services/blogs'
+ import '../index.css'
 
  const LoginForm = (props) => {
     
@@ -20,7 +21,7 @@
   
         console.log(user)
       } catch {
-        setErrorMessage('virheelliset kirjautumistiedot')
+        setErrorMessage('väärä käyttäjänimi tai salasana')
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)

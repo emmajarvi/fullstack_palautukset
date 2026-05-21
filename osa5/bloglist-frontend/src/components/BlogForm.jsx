@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 
   const BlogForm = (props) => {
 
-    const {setErrorMessage, setBlogs} = props
+    const {setErrorMessage, setMessage, setBlogs} = props
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -21,11 +21,17 @@ import blogService from '../services/blogs'
       try {
         const createdBlog = await blogService.create(newBlog)
         setBlogs(prev => prev.concat(createdBlog))
+
+        setMessage(`Uusi blogi ${title} tekijältä ${author} luotu`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+
         setTitle('')
         setAuthor('')
         setUrl('')
       } catch {
-        setErrorMessage('virhe blogin luomisessa')
+        setErrorMessage('Virhe blogin luomisessa')
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
