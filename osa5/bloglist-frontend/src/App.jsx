@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -33,32 +34,6 @@ const App = () => {
     }
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        <label>
-          username
-          <input
-            type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          password
-          <input
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </label>
-      </div>
-      <button type="submit">login</button>
-    </form>
-  )
-
   return (
     <div>
       <h1>Blogs</h1>
@@ -66,7 +41,13 @@ const App = () => {
       {!user && (
         <>
           <h2>Login</h2>
-          {loginForm()}
+          <LoginForm 
+            handleLogin={handleLogin} 
+            setUsername={setUsername} 
+            setPassword={setPassword}
+            username={username}
+            password={password}
+          />
         </>
       )}
       {user && (
@@ -76,7 +57,10 @@ const App = () => {
       )}
       <h2>blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog 
+          key={blog.id} 
+          blog={blog} 
+        />
       )}
     </div>
   )
