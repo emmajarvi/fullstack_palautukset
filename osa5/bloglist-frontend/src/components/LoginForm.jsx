@@ -1,6 +1,31 @@
-  const LoginForm = (props) => {
+ import loginService from '../services/login'
+ import blogService from '../services/blogs'
 
-    const {handleLogin, setUsername, setPassword, username, password} = props
+ const LoginForm = (props) => {
+    
+    const {setUsername, setPassword, username, password, setUser, setErrorMessage} = props
+    
+    const handleLogin = async event => {
+      event.preventDefault()
+      console.log('logging in with', username, password)
+      try {
+        const user = await loginService.login({ username, password })
+        window.localStorage.setItem(
+          'loggedBlogappUser', JSON.stringify(user)
+        )
+        blogService.setToken(user.token)
+        setUser(user)
+        setUsername('')
+        setPassword('')
+  
+        console.log(user)
+      } catch {
+        setErrorMessage('virheelliset kirjautumistiedot')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      }
+    }
 
     return (
     <form onSubmit={handleLogin}>
