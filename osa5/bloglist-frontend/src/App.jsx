@@ -26,6 +26,8 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+
+      console.log(user)
     } catch {
       setErrorMessage('wrong credentials')
       setTimeout(() => {
@@ -36,7 +38,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Blogs</h1>
+      <h1>Blogilista</h1>
       <Notification message={errorMessage} />
       {!user && (
         <>
@@ -52,15 +54,15 @@ const App = () => {
       )}
       {user && (
         <div>
-          <p>{user.name} logged in</p>
+          <p>Kirjautunut käyttäjä: {user.name}</p>
+          <h2>blogit</h2>
+          {blogs.map(blog =>
+            <Blog 
+              key={blog.id} 
+              blog={blog} 
+            />
+          )}
         </div>
-      )}
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog 
-          key={blog.id} 
-          blog={blog} 
-        />
       )}
     </div>
   )

@@ -6,7 +6,7 @@
     <form onSubmit={handleLogin}>
       <div>
         <label>
-          username
+          username {' '}
           <input
             type="text"
             value={username}
@@ -16,7 +16,7 @@
       </div>
       <div>
         <label>
-          password
+          password {' '}
           <input
             type="password"
             value={password}
