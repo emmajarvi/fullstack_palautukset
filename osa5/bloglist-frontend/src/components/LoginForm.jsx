@@ -2,9 +2,14 @@
  import blogService from '../services/blogs'
  import '../index.css'
 
- const LoginForm = (props) => {
-    
-    const {setUsername, setPassword, username, password, setUser, setErrorMessage} = props
+ const LoginForm = ({
+  setUsername, 
+  setPassword, 
+  username, 
+  password, 
+  setUser, 
+  setErrorMessage
+}) => {
     
     const handleLogin = async event => {
       event.preventDefault()
@@ -29,29 +34,32 @@
     }
 
     return (
-    <form onSubmit={handleLogin}>
-      <div>
-        <label>
-          username {' '}
-          <input
-            type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          password {' '}
-          <input
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </label>
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <div>
+      <h2>Kirjaudu</h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>
+            käyttäjänimi {' '}
+            <input
+              type="text"
+              value={username}
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            salasana {' '}
+            <input
+              type="password"
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </label>
+        </div>
+        <button type="submit">kirjaudu sisään</button>
+      </form>
+    </div>
     )
   }
 

@@ -3,12 +3,13 @@ import blogService from '../services/blogs'
 
   const BlogForm = (props) => {
 
-    const {setErrorMessage, setMessage, setBlogs} = props
+    const {setErrorMessage, setMessage, setBlogs, blogFormRef} = props
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
     const handleCreateBlog = async event => {
+      blogFormRef.current.toggleVisibility()
       event.preventDefault()
       console.log('creating blog')
 
@@ -39,39 +40,42 @@ import blogService from '../services/blogs'
     }
 
     return (
-    <form onSubmit={handleCreateBlog}>
       <div>
-        <label>
-          otsikko {' '}
-          <input
-            type="text"
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </label>
+        <h2>Lisää uusi blogi</h2>
+        <form onSubmit={handleCreateBlog}>
+          <div>
+            <label>
+              otsikko {' '}
+              <input
+                type="text"
+                value={title}
+                onChange={({ target }) => setTitle(target.value)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              tekijä {' '}
+              <input
+                type="text"
+                value={author}
+                onChange={({ target }) => setAuthor(target.value)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              url {' '}
+              <input
+                type="text"
+                value={url}
+                onChange={({ target }) => setUrl(target.value)}
+              />
+            </label>
+          </div>
+          <button type="submit">lisää blogi</button>
+        </form>
       </div>
-      <div>
-        <label>
-          tekijä {' '}
-          <input
-            type="text"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          url {' '}
-          <input
-            type="text"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </label>
-      </div>
-      <button type="submit">lisää blogi</button>
-    </form>
     )
   }
 

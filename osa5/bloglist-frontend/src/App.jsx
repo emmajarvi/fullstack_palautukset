@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import ErrorNotification from './components/ErrorNotification'
 import Notification from './components/Notification'
@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import './index.css'
+import Togglable from './components/Toggalble'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +15,8 @@ const App = () => {
   const [message, setMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -36,8 +39,7 @@ const App = () => {
       <ErrorNotification message={errorMessage} />
       <Notification message={message}/>
       {!user && (
-        <>
-          <h2>Login</h2>
+        <Togglable buttonLabel='kirjaudu sisään'>
           <LoginForm
             setUsername={setUsername} 
             setPassword={setPassword}
@@ -47,7 +49,7 @@ const App = () => {
             username={username}
             password={password}
           />
-        </>
+        </Togglable>
       )}
       {user && (
         <div>
@@ -65,12 +67,14 @@ const App = () => {
               blog={blog} 
             />
           )}
-          <h2>Lisää uusi blogi</h2>
-          <BlogForm
-              setErrorMessage={setErrorMessage}
-              setMessage={setMessage}
-              setBlogs={setBlogs}
-          />
+          <Togglable buttonLabel='lisää uusi blogi' ref={blogFormRef}>
+            <BlogForm
+                setErrorMessage={setErrorMessage}
+                setMessage={setMessage}
+                setBlogs={setBlogs}
+                blogFormRef={blogFormRef}
+            />
+          </Togglable>
         </div>
       )}
     </div>
