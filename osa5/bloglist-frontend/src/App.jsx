@@ -61,13 +61,17 @@ const App = () => {
             kirjaudu ulos
           </button>
           <h2>Blogit</h2>
-          {blogs.map(blog =>
-            <Blog 
-              key={blog.id} 
-              blog={blog}
-              setBlogs={setBlogs}
-            />
-          )}
+          {blogs
+            .slice()
+            .sort((a, b) => b.likes - a.likes)
+            .map(blog =>
+              <Blog 
+                key={blog.id} 
+                blog={blog}
+                setBlogs={setBlogs}
+              />
+            )
+          }
           <Togglable buttonLabel='lisää uusi blogi' ref={blogFormRef}>
             <BlogForm
                 setErrorMessage={setErrorMessage}
