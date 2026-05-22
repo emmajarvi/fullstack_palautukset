@@ -20,8 +20,8 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+      setBlogs(blogs)
+    )
   }, [])
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const App = () => {
       {!user && (
         <Togglable buttonLabel='kirjaudu sisään'>
           <LoginForm
-            setUsername={setUsername} 
+            setUsername={setUsername}
             setPassword={setPassword}
             setErrorMessage={setErrorMessage}
             setMessage={setMessage}
@@ -65,8 +65,8 @@ const App = () => {
             .slice()
             .sort((a, b) => b.likes - a.likes)
             .map(blog =>
-              <Blog 
-                key={blog.id} 
+              <Blog
+                key={blog.id}
                 blog={blog}
                 setBlogs={setBlogs}
                 setMessage={setMessage}
@@ -76,10 +76,10 @@ const App = () => {
           }
           <Togglable buttonLabel='lisää uusi blogi' ref={blogFormRef}>
             <BlogForm
-                setErrorMessage={setErrorMessage}
-                setMessage={setMessage}
-                setBlogs={setBlogs}
-                blogFormRef={blogFormRef}
+              setErrorMessage={setErrorMessage}
+              setMessage={setMessage}
+              setBlogs={setBlogs}
+              blogFormRef={blogFormRef}
             />
           </Togglable>
         </div>

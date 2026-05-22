@@ -35,16 +35,15 @@ const Blog = ({ blog, setBlogs, setMessage, user }) => {
   }
 
   const handleRemove = () => {
-    
     if (window.confirm(`Poista ${blog.title} ?`)) {
       blogService
         .remove(blog.id)
         .then(() => {
-          setMessage(
-            `${blog.title} poistettu`)
-            
+          setMessage(`${blog.title} poistettu`)
+
           setTimeout(() => {
-          setMessage(null)}, 5000)
+            setMessage(null)
+          }, 5000)
 
           setBlogs(prevBlogs => prevBlogs.filter(n => n.id !== blog.id))
         })
@@ -53,13 +52,12 @@ const Blog = ({ blog, setBlogs, setMessage, user }) => {
             `${blog.title} poistaminen ei onnistunut`
           )
         })
-
-    } else return;
+    }
   }
 
   return (
     <div style={blogStyle}>
-      <p style={{ fontWeight: 'bold', color: 'coral'}}>
+      <p style={{ fontWeight: 'bold', color: 'coral' }}>
         {blog.title} {' '}
         <button onClick={() => setVisible(!visible)}>
           {visible ? 'piilota' : 'näytä tiedot'}
