@@ -64,7 +64,8 @@ const App = () => {
           {blogs.map(blog =>
             <Blog 
               key={blog.id} 
-              blog={blog} 
+              blog={blog}
+              setBlogs={setBlogs}
             />
           )}
           <Togglable buttonLabel='lisää uusi blogi' ref={blogFormRef}>
