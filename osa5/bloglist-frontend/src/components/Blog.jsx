@@ -1,7 +1,8 @@
-import Togglable from "./Toggalble"
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({ blog, setBlogs }) => {
+  const [visible, setVisible] = useState(false)
 
   const blogStyle = {
     paddingTop: 5,
@@ -35,18 +36,22 @@ const Blog = ({ blog, setBlogs }) => {
 
   return (
     <div style={blogStyle}>
-      <p style={{ fontWeight: 'bold' }}>{blog.title}</p>
-      <Togglable buttonLabel='näytä tiedot'>
+      <p style={{ fontWeight: 'bold', color: 'coral'}}>
+        {blog.title} {' '}
+        <button onClick={() => setVisible(!visible)}>
+          {visible ? 'piilota' : 'näytä tiedot'}
+        </button>
+      </p>
+      {visible && (
         <div>
-          {blog.url} 
+          {blog.url}
           <br/>
           tykkäyksiä: {blog.likes} {' '}
           <button onClick={handleLike}>tykkää</button>
           <br/>
           {blog.author}
         </div>
-        <br/>
-      </Togglable>
+      )}
     </div>
   )
 }
