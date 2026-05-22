@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog, setBlogs, setMessage, user }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -34,6 +34,29 @@ const Blog = ({ blog, setBlogs }) => {
     )
   }
 
+  const handleRemove = () => {
+    
+    if (window.confirm(`Poista ${blog.title} ?`)) {
+      blogService
+        .remove(blog.id)
+        .then(() => {
+          setMessage(
+            `${blog.title} poistettu`)
+            
+          setTimeout(() => {
+          setMessage(null)}, 5000)
+
+          setBlogs(prevBlogs => prevBlogs.filter(n => n.id !== blog.id))
+        })
+        .catch(() => {
+          alert(
+            `${blog.title} poistaminen ei onnistunut`
+          )
+        })
+
+    } else return;
+  }
+
   return (
     <div style={blogStyle}>
       <p style={{ fontWeight: 'bold', color: 'coral'}}>
@@ -50,6 +73,10 @@ const Blog = ({ blog, setBlogs }) => {
           <button onClick={handleLike}>tykkää</button>
           <br/>
           {blog.author}
+          <br/>
+          {user && blog.user && user.username === (blog.user.username || blog.user) && (
+            <button onClick={handleRemove}>poista</button>
+          )}
         </div>
       )}
     </div>
